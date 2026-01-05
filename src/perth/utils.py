@@ -6,7 +6,6 @@ import os
 import numpy as np
 import librosa
 import soundfile as sf
-import matplotlib.pyplot as plt
 from typing import Tuple, Optional, Dict
 from math import sqrt
 from scipy.stats import mode
@@ -139,6 +138,8 @@ def plot_audio_comparison(
         sample_rate: Sample rate of the audio
         output_path: Path to save the plot. If None, plot is shown interactively.
     """
+    import matplotlib.pyplot as plt
+
     fig, axs = plt.subplots(3, 1, figsize=(10, 12))
 
     # Plot waveforms
