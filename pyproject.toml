@@ -1,6 +1,6 @@
 [project]
 name = "resemble-perth"
-version = "1.0.1"
+version = "1.0.2"
 description = "Audio Watermarking and Detection Library"
 license = { text = "MIT" }
 readme = { file = "README.md", content-type = "text/markdown" }

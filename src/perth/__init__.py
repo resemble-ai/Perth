@@ -26,5 +26,5 @@ if PerthImplicitWatermarker is not None:
     __all__.append("PerthImplicitWatermarker")
 
 # Version information
-__version__ = "1.0.0"
+__version__ = "1.0.2"
 __author__ = "Resemble AI Team"
