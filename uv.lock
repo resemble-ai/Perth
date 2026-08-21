@@ -1842,20 +1842,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pyrubberband"
-version = "0.4.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
-    { name = "numpy", version = "2.3.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "soundfile" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/b4/5f/e4e737a216c9327931cdee8ca2194c916ee8a1748a8c7c80d5d5a8368d81/pyrubberband-0.4.0.tar.gz", hash = "sha256:74707ec8ca6c6234e84ad2d9a4aa5c08a62fcfd83da011d535d41f4388ac49f7", size = 6416, upload-time = "2024-09-30T17:53:00.796Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d8/88/238aa67e353012d8dd999372aedada3f627bc9895d5d2a5305e7ffb1affd/pyrubberband-0.4.0-py3-none-any.whl", hash = "sha256:0a803191f38debbbdfd9135939c1f75999e98511f19867d357b84e191f139ca9", size = 4798, upload-time = "2024-09-30T17:52:59.621Z" },
-]
-
-[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 source = { registry = "https://pypi.org/simple" }
@@ -2100,7 +2086,6 @@ extra = [
     { name = "pillow" },
     { name = "praat-parselmouth" },
     { name = "pyloudnorm" },
-    { name = "pyrubberband" },
     { name = "pywavelets", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "pywavelets", version = "1.9.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "scikit-learn" },
@@ -2133,7 +2118,6 @@ extra = [
     { name = "pillow", specifier = ">=9.0.0" },
     { name = "praat-parselmouth", specifier = ">=0.4.2" },
     { name = "pyloudnorm", specifier = ">=0.1.1" },
-    { name = "pyrubberband", specifier = ">=0.4.0" },
     { name = "pywavelets", specifier = ">=1.3.0" },
     { name = "scikit-learn", specifier = ">=1.3.0" },
     { name = "sox", specifier = ">=1.4.1" },

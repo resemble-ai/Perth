@@ -69,12 +69,6 @@ def save_wav(wav, file_or_path, sample_rate: int, subtype="PCM_16"):
     sf.write(file_or_path, wav, sample_rate, subtype=subtype, format="wav")
 
 
-def pitch_shift(wav, sample_rate, semitones):  # TODO: unused function?
-    import pyrubberband as pyrb
-
-    return pyrb.pitch_shift(wav, sample_rate, semitones)
-
-
 def convert_to_mp3(wav_path, sample_rate=22050):
     segment = AudioSegment.from_wav(wav_path)
     tmpfile = tempfile.SpooledTemporaryFile(suffix=".mp3")
