@@ -6,7 +6,6 @@ import warnings
 from pathlib import Path
 import librosa
 import numpy as np
-import pyrubberband as pyrb
 import soundfile as sf
 from audioread import NoBackendError
 from pydub import AudioSegment
@@ -68,10 +67,6 @@ def save_wav(wav, file_or_path, sample_rate: int, subtype="PCM_16"):
 
     file_or_path = str(file_or_path) if isinstance(file_or_path, Path) else file_or_path
     sf.write(file_or_path, wav, sample_rate, subtype=subtype, format="wav")
-
-
-def pitch_shift(wav, sample_rate, semitones):
-    return pyrb.pitch_shift(wav, sample_rate, semitones)
 
 
 def convert_to_mp3(wav_path, sample_rate=22050):
