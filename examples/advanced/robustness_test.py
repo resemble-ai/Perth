@@ -11,11 +11,10 @@ import numpy as np
 import librosa
 import soundfile as sf
 import matplotlib.pyplot as plt
-from scipy.signal import resample
 from tqdm import tqdm
 
 from perth import PerthImplicitWatermarker
-from perth.utils import calculate_audio_metrics, plot_audio_comparison
+from perth.utils import calculate_audio_metrics
 
 
 def apply_mp3_compression(audio, sr, output_path, bitrate='128k'):

@@ -8,7 +8,7 @@ defaults:
 on:
   pull_request:
     branches:
-      - main
+      - master
     paths:
       - ".github/workflows/perth.yaml"
       - "src/**"
@@ -16,7 +16,7 @@ on:
       - "pyproject.toml"
   push:
     branches:
-      - main
+      - master
     paths:
       - ".github/workflows/perth.yaml"
       - "src/**"
@@ -27,13 +27,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           version: "latest"
-      - name: Install Python 3.13
-        run: uv python install 3.13
+          python-version: "3.13"
+          activate-environment: 'true'
       - name: Install project
         run: uv sync --all-groups
       - name: Lints / Type Checking
@@ -43,13 +43,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           version: "latest"
-      - name: Install Python 3.13
-        run: uv python install 3.13
+          python-version: "3.13"
+          activate-environment: 'true'
       - name: Install project
         run: uv sync --all-groups --all-extras
       - name: Unit and Integration Tests
@@ -57,23 +57,23 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
+    needs: [tests]
     # only publish off main branch
-    if: github.repository == 'resemble-ai/Perth' && github.ref == 'refs/heads/main'
+    if: github.repository == 'resemble-ai/Perth' && github.ref == 'refs/heads/master'
     permissions:
       id-token: write
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           version: "latest"
-      - name: Install Python 3.13
-        run: uv python install 3.13
+          python-version: "3.13"
+          activate-environment: 'true'
       - name: Install project
         run: uv sync --all-groups
-
       - name: build
         run: uv build
       - name: Publish

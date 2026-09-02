@@ -1,7 +1,5 @@
 import unittest
 import numpy as np
-import os
-import tempfile
 
 from perth import DummyWatermarker
 from perth.utils import calculate_audio_metrics
