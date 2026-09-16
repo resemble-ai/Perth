@@ -1,6 +1,5 @@
 import torch
 import numpy as np
-from librosa import resample
 
 from .model.perth_net import PerthNet
 from perth.watermarker import WatermarkerBase
@@ -10,6 +9,35 @@ def _to_tensor(x, device):
     if isinstance(x, np.ndarray):
         x = torch.from_numpy(x.copy())
     return x.to(dtype=torch.float, device=device)
+
+
+def _resample(signal, orig_sr, target_sr, *, res_type=None):
+    """Resample with torchaudio; librosa is an optional extra, not a core dep."""
+    try:
+        from torchaudio.functional import resample as torchaudio_resample
+
+        tensor = signal if isinstance(signal, torch.Tensor) else torch.as_tensor(signal)
+        was_numpy = not isinstance(signal, torch.Tensor)
+        if tensor.ndim == 1:
+            tensor = tensor.unsqueeze(0)
+            squeezed = True
+        else:
+            squeezed = False
+        out = torchaudio_resample(tensor.float(), orig_sr, target_sr)
+        if squeezed:
+            out = out.squeeze(0)
+        return out.numpy() if was_numpy else out
+    except Exception:
+        try:
+            from librosa import resample
+        except ImportError as error:
+            raise ImportError(
+                "PerthNet resample fell back to librosa, but librosa is not installed. "
+                "Install resemble-perth[audio] or keep torchaudio available."
+            ) from error
+
+        kwargs = {} if res_type is None else {"res_type": res_type}
+        return resample(signal, orig_sr=orig_sr, target_sr=target_sr, **kwargs)
 
 
 class PerthImplicitWatermarker(WatermarkerBase):
@@ -33,7 +61,7 @@ class PerthImplicitWatermarker(WatermarkerBase):
     def apply_watermark(self, signal, sample_rate, **_):
         change_rate = sample_rate != self.perth_net.hp.sample_rate
         signal = (
-            resample(
+            _resample(
                 signal, orig_sr=sample_rate, target_sr=self.perth_net.hp.sample_rate
             )
             if change_rate
@@ -53,7 +81,7 @@ class PerthImplicitWatermarker(WatermarkerBase):
         wm_signal = self.perth_net.ap.magphase_to_signal(wm_magspec, phase)
         wm_signal = wm_signal.detach().cpu().numpy()
         return (
-            resample(
+            _resample(
                 wm_signal, orig_sr=self.perth_net.hp.sample_rate, target_sr=sample_rate
             )
             if change_rate
@@ -63,7 +91,7 @@ class PerthImplicitWatermarker(WatermarkerBase):
     def get_watermark(self, wm_signal, sample_rate, round=True, **_):
         change_rate = sample_rate != self.perth_net.hp.sample_rate
         if change_rate:
-            wm_signal = resample(
+            wm_signal = _resample(
                 wm_signal,
                 orig_sr=sample_rate,
                 target_sr=self.perth_net.hp.sample_rate,

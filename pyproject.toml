@@ -32,12 +32,16 @@ classifiers = [
 
 dependencies = [
     "PyYAML>=6.0",
-    "librosa>=0.11.0",
     "numpy>=1.24.0",
-    "pydub>=0.25.1",
-    "soundfile>=0.12.0",
     "torch>=2.1.0",
     "torchaudio>=2.1.0",
+]
+
+[project.optional-dependencies]
+audio = [
+    "librosa>=0.11.0",
+    "pydub>=0.25.1",
+    "soundfile>=0.12.0",
 ]
 
 [dependency-groups]

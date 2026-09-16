@@ -2061,14 +2061,18 @@ name = "resemble-perth"
 version = "1.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "librosa" },
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "numpy", version = "2.3.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "pydub" },
     { name = "pyyaml" },
-    { name = "soundfile" },
     { name = "torch" },
     { name = "torchaudio" },
+]
+
+[package.optional-dependencies]
+audio = [
+    { name = "librosa" },
+    { name = "pydub" },
+    { name = "soundfile" },
 ]
 
 [package.dev-dependencies]
@@ -2096,14 +2100,15 @@ extra = [
 
 [package.metadata]
 requires-dist = [
-    { name = "librosa", specifier = ">=0.11.0" },
+    { name = "librosa", marker = "extra == 'audio'", specifier = ">=0.11.0" },
     { name = "numpy", specifier = ">=1.24.0" },
-    { name = "pydub", specifier = ">=0.25.1" },
+    { name = "pydub", marker = "extra == 'audio'", specifier = ">=0.25.1" },
     { name = "pyyaml", specifier = ">=6.0" },
-    { name = "soundfile", specifier = ">=0.12.0" },
+    { name = "soundfile", marker = "extra == 'audio'", specifier = ">=0.12.0" },
     { name = "torch", specifier = ">=2.1.0" },
     { name = "torchaudio", specifier = ">=2.1.0" },
 ]
+provides-extras = ["audio"]
 
 [package.metadata.requires-dev]
 dev = [
