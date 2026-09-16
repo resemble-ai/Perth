@@ -24,6 +24,14 @@ Perth enables you to embed imperceptible watermarks in audio files and later det
 pip install resemble-perth
 ```
 
+Core install is `torch` + `torchaudio` only. `librosa` (and `soxr`) pull LGPL
+code and are **not** imported by `perth.perth_net` / `PerthNet`. Install the
+optional extra only if you need the CLI or librosa I/O:
+
+```bash
+pip install 'resemble-perth[audio]'
+```
+
 ### From Source
 
 ```bash

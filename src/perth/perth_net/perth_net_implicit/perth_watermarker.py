@@ -12,9 +12,8 @@ def _to_tensor(x, device):
 
 
 def _resample(signal, orig_sr, target_sr, *, res_type=None):
-    """Resample with torchaudio when possible; librosa is an optional fallback."""
+    """Resample with torchaudio; librosa is an optional extra, not a core dep."""
     try:
-        import torch
         from torchaudio.functional import resample as torchaudio_resample
 
         tensor = signal if isinstance(signal, torch.Tensor) else torch.as_tensor(signal)
@@ -29,7 +28,13 @@ def _resample(signal, orig_sr, target_sr, *, res_type=None):
             out = out.squeeze(0)
         return out.numpy() if was_numpy else out
     except Exception:
-        from librosa import resample
+        try:
+            from librosa import resample
+        except ImportError as error:
+            raise ImportError(
+                "PerthNet resample fell back to librosa, but librosa is not installed. "
+                "Install resemble-perth[audio] or keep torchaudio available."
+            ) from error
 
         kwargs = {} if res_type is None else {"res_type": res_type}
         return resample(signal, orig_sr=orig_sr, target_sr=target_sr, **kwargs)

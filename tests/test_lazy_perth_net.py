@@ -31,3 +31,11 @@ class TestLazyPerthNetImports(unittest.TestCase):
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_core_dependencies_do_not_declare_librosa(self):
+        from pathlib import Path
+
+        text = Path(__file__).resolve().parents[1].joinpath("pyproject.toml").read_text()
+        core = text.split("[project.optional-dependencies]", 1)[0]
+        self.assertNotIn("librosa", core)
+        self.assertIn("librosa>=0.11.0", text)
